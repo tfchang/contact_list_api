@@ -4,5 +4,5 @@ get '/' do
 end
 
 get '/list' do
-  erb :list
+
 end
