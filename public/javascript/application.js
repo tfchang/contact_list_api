@@ -1,7 +1,9 @@
 var handlers = {
   listContacts: function() {
     $.getJSON('/api/list', function(data) {
+      $('#new-contact').addClass('hide');
       $('#contacts').removeClass('hide');
+      
       var table = $('#contacts').find('tbody').empty();
 
       $.each(data, function(index, contact) {
@@ -14,6 +16,7 @@ var handlers = {
   },
 
   addContact: function() {
+    $('#contacts').addClass('hide');
     $('#new-contact').removeClass('hide');
   },
 
