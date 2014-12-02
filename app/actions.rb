@@ -3,6 +3,6 @@ get '/' do
   erb :index
 end
 
-get '/list' do
-
+get '/api/list' do
+  contacts = Contact.all.to_json
 end
