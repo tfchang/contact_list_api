@@ -18,6 +18,7 @@ var handlers = {
   addContact: function() {
     $('#contacts').addClass('hide');
     $('#new-contact').removeClass('hide');
+    $('#new-contact')[0].reset();
   },
 
   createContact: function(event) {
