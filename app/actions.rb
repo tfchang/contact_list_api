@@ -6,3 +6,17 @@ end
 get '/api/list' do
   contacts = Contact.all.to_json
 end
+
+post '/api/create' do
+  response = {}
+  response[:result] = false
+  
+  contact = Contact.new(first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
+
+  if contact.save
+    response[:result] = true
+    response[:id] = contact.id
+  end
+
+  response.to_json
+end
