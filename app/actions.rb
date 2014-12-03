@@ -7,6 +7,10 @@ get '/api/list' do
   Contact.all.to_json
 end
 
+get '/api/find/:id' do
+  Contact.find(params[:id].to_i).to_json
+end
+
 post '/api/create' do
   response = {}
   response[:result] = false
