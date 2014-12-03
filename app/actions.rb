@@ -4,7 +4,7 @@ get '/' do
 end
 
 get '/api/list' do
-  contacts = Contact.all.to_json
+  Contact.all.to_json
 end
 
 post '/api/create' do
@@ -24,6 +24,7 @@ post '/api/create' do
 end
 
 get '/api/show/:id' do
-  @contact = Contact.find(params[:id].to_i)
-  erb :show
+  Contact.find(params[:id].to_i).to_json
+  
+  # erb :show
 end

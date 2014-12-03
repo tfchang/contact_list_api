@@ -25,3 +25,17 @@ table {
   color: white;
   background-color: #0000FF;
 }
+
+#contacts {
+  float: left;
+  margin: 30px;
+}
+
+#show-contact {
+  float: left;
+  margin-top: 30px;
+  margin-left: 50px;
+  width: 400px;
+  padding: 20px;
+  border: 1px solid black;
+}

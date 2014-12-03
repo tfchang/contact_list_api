@@ -44,7 +44,21 @@ var handlers = {
   },
 
   showContact: function() {
-    var contact_id = Number($(this).find('td').first().text());
+    var show = $('#show-contact')
+    show.removeClass('hide');
+    show.empty();
+
+    var contact_id = $(this).find('td').first().text();
+    var show_url = '/api/show/' + contact_id;
+    console.log(show_url);
+
+    $.getJSON(show_url, function(contact) {
+      console.log(contact);
+      var full_name = contact.first_name + " " + contact.last_name;
+      $('<h3>').text(full_name).appendTo(show);
+      $('<h4>').text(contact.email).appendTo(show);
+      $('<h5>').text("Phone Numbers: ").appendTo(show);
+    });
   }
 };
 
