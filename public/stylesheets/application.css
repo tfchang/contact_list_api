@@ -3,15 +3,39 @@ body {
   padding-bottom: 50px; 
 }
 
-.hide {
-  display: none;
-}
-
 button {
   display: inline-block;
-  width: 250px;
+  width: 130px;
   height: 35px;
   margin: 20px;
   padding: 5px;
   font-size: 20px;
+}
+
+table {
+  height: 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.highlight {
+  font-weight: bold;
+  color: white;
+  background-color: #0000FF;
+}
+
+#contacts {
+  float: left;
+  margin: 30px;
+}
+
+#show-contact {
+  float: left;
+  margin-top: 30px;
+  margin-left: 50px;
+  width: 400px;
+  padding: 20px;
+  border: 1px solid black;
 }

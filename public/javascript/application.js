@@ -2,12 +2,12 @@ var handlers = {
   listContacts: function() {
     $.getJSON('/api/list', function(data) {
       $('#new-contact').addClass('hide');
-      $('#contacts').removeClass('hide');
-      
+      $('#contacts').removeClass('hide');    
       var table = $('#contacts').find('tbody').empty();
 
       $.each(data, function(index, contact) {
-        var tr = $("<tr>").appendTo(table);
+        var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
+        $('<td>').text(contact.id).appendTo(tr);
         $('<td>').text(contact.first_name).appendTo(tr);
         $('<td>').text(contact.last_name).appendTo(tr);
         $('<td>').text(contact.email).appendTo(tr);
@@ -33,6 +33,32 @@ var handlers = {
     } else {
       alert('Error!')
     }
+  },
+
+  addHighlight: function() {
+    $(this).addClass('highlight');
+  },
+
+  removeHighlight: function() {
+    $(this).removeClass('highlight');
+  },
+
+  showContact: function() {
+    var show = $('#show-contact').removeClass('hide');
+    var info = show.children('#contact-info');
+    info.empty();
+
+    var contact_id = $(this).find('td').first().text();
+    var show_url = '/api/show/' + contact_id;
+    console.log(show_url);
+
+    $.getJSON(show_url, function(contact) {
+      console.log(contact);
+      var full_name = contact.first_name + " " + contact.last_name;
+      $('<h3>').text(full_name).appendTo(info);
+      $('<h4>').text(contact.email).appendTo(info);
+      $('<h5>').text("Phone Numbers: ").appendTo(info);
+    });
   }
 };
 
@@ -42,4 +68,8 @@ $(function() {
   $('#add-contact').on('click', handlers.addContact);
 
   $('#new-contact').on('submit', handlers.createContact);
+
+  $('#contacts').on('mouseenter', '.contact-row', handlers.addHighlight);
+  $('#contacts').on('mouseleave', '.contact-row', handlers.removeHighlight);
+  $('#contacts').on('click', '.contact-row', handlers.showContact);
 });

@@ -1,0 +1,19 @@
+<h3><%= @contact.full_name %></h3>
+
+<h4><%= @contact.email %></h4>
+
+<hr />
+
+<% if @contact.phones.any? %>
+  <h4>Phone Numbers:</h4>
+  <ul>
+    <% @contact.phones.each do |phone| %>
+      <li><%= phone.label %>: <%= phone.number %>
+    <% end %>
+  </ul>
+<% end %>
+
+<button id="edit-contact" type="button">Edit Contact</button>
+
+<button id="delete-contact" type="button">Delete Contact</button>
+
