@@ -3,15 +3,25 @@ body {
   padding-bottom: 50px; 
 }
 
-.hide {
-  display: none;
-}
-
 button {
   display: inline-block;
-  width: 250px;
+  width: 200px;
   height: 35px;
   margin: 20px;
   padding: 5px;
   font-size: 20px;
+}
+
+table {
+  height: 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.highlight {
+  font-weight: bold;
+  color: white;
+  background-color: #0000FF;
 }

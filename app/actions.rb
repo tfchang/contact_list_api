@@ -10,7 +10,6 @@ end
 post '/api/create' do
   response = {}
   response[:result] = false
-  
   contact = Contact.new(first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
 
   if contact.save
@@ -18,10 +17,13 @@ post '/api/create' do
       puts phone.inspect
       contact.phones.create(label: phone[:label], number: phone[:number])
     end
-
     response[:result] = true
     response[:id] = contact.id
   end
-
   response.to_json
+end
+
+get '/api/show/:id' do
+  @contact = Contact.find(params[:id].to_i)
+  erb :show
 end
