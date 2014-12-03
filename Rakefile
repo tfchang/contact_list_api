@@ -5,10 +5,18 @@ require ::File.expand_path('../config/environment', __FILE__)
 Rake::Task["db:create"].clear
 Rake::Task["db:drop"].clear
 
-# NOTE: Assumes SQLite3 DB
+
+# Use PostgreSQL for Heroku deployment
 desc "create the database"
 task "db:create" do
-  touch 'db/db.sqlite3'
+ if development?
+  set :database, {
+    adapter: "sqlite3",
+    database: "db/db.sqlite3"
+  }
+  else
+    set :database, ENV['DATABASE_URL']
+  end
 end
 
 desc "drop the database"
