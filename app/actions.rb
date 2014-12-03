@@ -7,6 +7,12 @@ get '/api/list' do
   Contact.all.to_json
 end
 
+post '/api/find' do
+  term = "%" << params[:search_term] << "%"
+  sql = "first_name LIKE ? OR last_name LIKE ? OR email LIKE ?"
+  Contact.where(sql, term, term, term).to_json
+end
+
 post '/api/create' do
   response = {}
   response[:result] = false
@@ -25,6 +31,5 @@ end
 
 get '/api/show/:id' do
   Contact.find(params[:id].to_i).to_json
-  
   # erb :show
 end

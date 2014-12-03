@@ -1,9 +1,4 @@
-<button id="list-contacts" type="button">List</button>
-
-<button id="add-contact" type="button">Add</button>
-<br />
-
-<table id="contacts" class="hide" border="1">
+<table id="contacts" border="1">
   <thead>
     <tr height="40">
       <th>Contact ID</th>
@@ -16,7 +11,14 @@
   </tbody>
 </table>
 
-<form id="new-contact" class="hide">
+<form id="find-form">
+  <label for="search-term">Search Term:</label> <br />
+  <input name="search_term" id="search-term" type="text">
+  <br />
+  <input type="submit" value="Submit">
+</form>
+
+<form id="new-contact">
   <label for="new-first-name">First Name:</label> <br />
   <input name="first_name" id="new-first-name" type="text">
   <br />
@@ -39,7 +41,7 @@
   <input type="submit" value="Submit">
 </form>
 
-<div id="show-contact" class="hide">
+<div id="show-contact">
   <div id="contact-info">
   </div>
   <button id="edit-contact" type="button">Edit</button>

@@ -1,9 +1,28 @@
+function showOnly(elem) {
+  contactsTable.hide();
+  findForm.hide();
+  newForm.hide();
+  showBox.hide(); 
+
+  if (elem) {
+    elem.show();
+  }
+};
+
 var handlers = {
+  // displayTable: function(index, contact) {
+  //   var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
+  //   $('<td>').text(contact.id).appendTo(tr);
+  //   $('<td>').text(contact.first_name).appendTo(tr);
+  //   $('<td>').text(contact.last_name).appendTo(tr);
+  //   $('<td>').text(contact.email).appendTo(tr);
+  // },
+
   listContacts: function() {
-    $.getJSON('/api/list', function(data) {
-      $('#new-contact').addClass('hide');
-      $('#contacts').removeClass('hide');    
-      var table = $('#contacts').find('tbody').empty();
+    showOnly(contactsTable);
+
+    $.getJSON('/api/list', function(data) { 
+      var table = contactsTable.find('tbody').empty();
 
       $.each(data, function(index, contact) {
         var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
@@ -15,10 +34,33 @@ var handlers = {
     });
   },
 
+  findContact: function() {
+    showOnly(findForm);
+    findForm[0].reset();
+  },
+
+  searchContact: function() {
+    event.preventDefault();
+    form_params = $(this).serialize();
+    $.post('/api/find', form_params, handlers.postSearch, 'json');
+  },
+
+  postSearch: function(data) {
+    showOnly(contactsTable);
+    var table = contactsTable.find('tbody').empty();
+
+    $.each(data, function(index, contact) {
+      var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
+      $('<td>').text(contact.id).appendTo(tr);
+      $('<td>').text(contact.first_name).appendTo(tr);
+      $('<td>').text(contact.last_name).appendTo(tr);
+      $('<td>').text(contact.email).appendTo(tr);
+    });
+  },
+
   addContact: function() {
-    $('#contacts').addClass('hide');
-    $('#new-contact').removeClass('hide');
-    $('#new-contact')[0].reset();
+    showOnly(newForm);
+    newForm[0].reset();
   },
 
   createContact: function(event) {
@@ -44,8 +86,8 @@ var handlers = {
   },
 
   showContact: function() {
-    var show = $('#show-contact').removeClass('hide');
-    var info = show.children('#contact-info');
+    showBox.show();
+    var info = showBox.children('#contact-info');
     info.empty();
 
     var contact_id = $(this).find('td').first().text();
@@ -63,13 +105,20 @@ var handlers = {
 };
 
 $(function() {
+  contactsTable = $('#contacts');
+  findForm = $('#find-form');
+  newForm = $('#new-contact');
+  showBox = $('#show-contact');
+  showOnly();
+
   $('#list-contacts').on('click', handlers.listContacts);
-
+  $('#find-contact').on('click', handlers.findContact);
   $('#add-contact').on('click', handlers.addContact);
+  
+  newForm.on('submit', handlers.createContact);
+  findForm.on('submit', handlers.searchContact);
 
-  $('#new-contact').on('submit', handlers.createContact);
-
-  $('#contacts').on('mouseenter', '.contact-row', handlers.addHighlight);
-  $('#contacts').on('mouseleave', '.contact-row', handlers.removeHighlight);
-  $('#contacts').on('click', '.contact-row', handlers.showContact);
+  contactsTable.on('mouseenter', '.contact-row', handlers.addHighlight);
+  contactsTable.on('mouseleave', '.contact-row', handlers.removeHighlight);
+  contactsTable.on('click', '.contact-row', handlers.showContact);
 });
