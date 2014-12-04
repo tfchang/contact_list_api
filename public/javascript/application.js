@@ -73,7 +73,7 @@ var handlers = {
     if (data.result) {
       handlers.listContacts();
     } else {
-      alert('Error!')
+      alert('Error! Failure to create contact.')
     }
   },
 
@@ -90,9 +90,10 @@ var handlers = {
   showContactInfo: function(contact) {
     var info = showBox.children('#contact-info');
     info.empty();
+    info.data('contact-id', contact.id);
     showBox.show();
 
-    var full_name = contact.first_name + " " + contact.last_name;      
+    var full_name = contact.first_name + " " + contact.last_name; 
     $('<h3>').text(full_name).appendTo(info);
     $('<h4>').text(contact.email).appendTo(info);
     $('<hr />').appendTo(info);    
@@ -105,6 +106,19 @@ var handlers = {
     var show_url = '/api/show/' + contact_id;
 
     $.getJSON(show_url, handlers.showContactInfo);
+  },
+
+  deleteContact: function() {
+    var contact_id = $('#contact-info').data('contact-id');
+    $.post('/api/delete', {'id':contact_id}, handlers.postDelete, 'json');
+  },
+
+  postDelete: function(data) {
+    if (data.result) {
+      handlers.listContacts();
+    } else {
+      alert('Error! Failure to delete contact.')
+    };
   }
 };
 
@@ -118,6 +132,7 @@ $(function() {
   $('#list-contacts').on('click', handlers.listContacts);
   $('#find-contact').on('click', handlers.findContact);
   $('#add-contact').on('click', handlers.addContact);
+  $('#delete-contact').on('click', handlers.deleteContact);
   
   newForm.on('submit', handlers.createContact);
   findForm.on('submit', handlers.searchContact);
