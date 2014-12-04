@@ -81,7 +81,7 @@ var handlers = {
     var phones = $('#contact-phones').children('tbody');
     phones.empty();
     $.each(contact.phones, function(index, phone) {
-      var tr = $('<tr>').appendTo(phones);
+      var tr = $('<tr class="contact-phone">').appendTo(phones);
       $('<td>').text(phone.label).appendTo(tr);
       $('<td>').text(phone.number).appendTo(tr);
     }); 
@@ -94,8 +94,8 @@ var handlers = {
     showBox.show();
 
     var full_name = contact.first_name + " " + contact.last_name; 
-    $('<h3>').text(full_name).appendTo(info);
-    $('<h4>').text(contact.email).appendTo(info);
+    $('<h3 id="contact-name">').text(full_name).appendTo(info);
+    $('<h4 id="contact-email">').text(contact.email).appendTo(info);
     $('<hr />').appendTo(info);    
     $("<h5 id='phone-heading'>").text("Phone Numbers: ").appendTo(info);
     handlers.showContactPhones(contact); 
@@ -106,6 +106,13 @@ var handlers = {
     var show_url = '/api/show/' + contact_id;
 
     $.getJSON(show_url, handlers.showContactInfo);
+  },
+
+  editContact: function() {
+    $('<p class="notice">').text("Each field is editable now.").prependTo(showBox);
+    $('#contact-name').attr('contentEditable', true);
+    $('#contact-email').attr('contentEditable', true);
+    $('.contact-phone').attr('contentEditable', true);
   },
 
   deleteContact: function() {
@@ -132,6 +139,7 @@ $(function() {
   $('#list-contacts').on('click', handlers.listContacts);
   $('#find-contact').on('click', handlers.findContact);
   $('#add-contact').on('click', handlers.addContact);
+  $('#edit-contact').on('click', handlers.editContact);
   $('#delete-contact').on('click', handlers.deleteContact);
   
   newForm.on('submit', handlers.createContact);

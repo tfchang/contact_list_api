@@ -56,3 +56,7 @@ th, td {
   text-decoration: underline;
   font-size: 1.1em;
 }
+
+.notice {
+  color: red;
+}
