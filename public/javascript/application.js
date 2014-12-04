@@ -88,18 +88,24 @@ var handlers = {
   showContact: function() {
     showBox.show();
     var info = showBox.children('#contact-info');
+    var phones = $('#contact-phones').children('tbody');
     info.empty();
+    phones.empty();
 
     var contact_id = $(this).find('td').first().text();
     var show_url = '/api/show/' + contact_id;
-    console.log(show_url);
 
     $.getJSON(show_url, function(contact) {
-      console.log(contact);
-      var full_name = contact.first_name + " " + contact.last_name;
+      var full_name = contact.first_name + " " + contact.last_name;      
       $('<h3>').text(full_name).appendTo(info);
       $('<h4>').text(contact.email).appendTo(info);
       $('<h5>').text("Phone Numbers: ").appendTo(info);
+
+      $.each(contact.phones, function(index, phone) {
+        var tr = $('<tr>').appendTo(phones);
+        $('<td>').text(phone.label).appendTo(tr);
+        $('<td>').text(phone.number).appendTo(tr);
+      });  
     });
   }
 };

@@ -30,6 +30,8 @@ post '/api/create' do
 end
 
 get '/api/show/:id' do
-  Contact.find(params[:id].to_i).to_json
+  contact = Contact.find(params[:id].to_i)
+  phones = contact.phones
+  response = contact.to_json.insert(-2, ",\"phones\":#{phones.to_json}")
   # erb :show
 end
