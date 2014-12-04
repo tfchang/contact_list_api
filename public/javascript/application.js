@@ -10,13 +10,21 @@ function showOnly(elem) {
 };
 
 var handlers = {
-  // displayTable: function(index, contact) {
-  //   var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-  //   $('<td>').text(contact.id).appendTo(tr);
-  //   $('<td>').text(contact.first_name).appendTo(tr);
-  //   $('<td>').text(contact.last_name).appendTo(tr);
-  //   $('<td>').text(contact.email).appendTo(tr);
-  // },
+  addHighlight: function() {
+    $(this).addClass('highlight');
+  },
+
+  removeHighlight: function() {
+    $(this).removeClass('highlight');
+  },
+
+  displayContactTable: function(index, contact, table) {
+    var tr = $("<tr class='contact-row'>").appendTo(table);
+    $('<td>').text(contact.id).appendTo(tr);
+    $('<td>').text(contact.first_name).appendTo(tr);
+    $('<td>').text(contact.last_name).appendTo(tr);
+    $('<td>').text(contact.email).appendTo(tr);
+  },
 
   listContacts: function() {
     showOnly(contactsTable);
@@ -25,11 +33,7 @@ var handlers = {
       var table = contactsTable.find('tbody').empty();
 
       $.each(data, function(index, contact) {
-        var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-        $('<td>').text(contact.id).appendTo(tr);
-        $('<td>').text(contact.first_name).appendTo(tr);
-        $('<td>').text(contact.last_name).appendTo(tr);
-        $('<td>').text(contact.email).appendTo(tr);
+        handlers.displayContactTable(index, contact, table)
       });
     });
   },
@@ -50,11 +54,7 @@ var handlers = {
     var table = contactsTable.find('tbody').empty();
 
     $.each(data, function(index, contact) {
-      var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-      $('<td>').text(contact.id).appendTo(tr);
-      $('<td>').text(contact.first_name).appendTo(tr);
-      $('<td>').text(contact.last_name).appendTo(tr);
-      $('<td>').text(contact.email).appendTo(tr);
+      handlers.displayContactTable(index, contact, table)
     });
   },
 
@@ -77,30 +77,34 @@ var handlers = {
     }
   },
 
-  addHighlight: function() {
-    $(this).addClass('highlight');
+  showContactPhones: function(contact) {
+    var phones = $('#contact-phones').children('tbody');
+    phones.empty();
+    $.each(contact.phones, function(index, phone) {
+      var tr = $('<tr>').appendTo(phones);
+      $('<td>').text(phone.label).appendTo(tr);
+      $('<td>').text(phone.number).appendTo(tr);
+    }); 
   },
 
-  removeHighlight: function() {
-    $(this).removeClass('highlight');
+  showContactInfo: function(contact) {
+    var info = showBox.children('#contact-info');
+    info.empty();
+    showBox.show();
+
+    var full_name = contact.first_name + " " + contact.last_name;      
+    $('<h3>').text(full_name).appendTo(info);
+    $('<h4>').text(contact.email).appendTo(info);
+    $('<hr />').appendTo(info);    
+    $("<h5 id='phone-heading'>").text("Phone Numbers: ").appendTo(info);
+    handlers.showContactPhones(contact); 
   },
 
   showContact: function() {
-    showBox.show();
-    var info = showBox.children('#contact-info');
-    info.empty();
-
     var contact_id = $(this).find('td').first().text();
     var show_url = '/api/show/' + contact_id;
-    console.log(show_url);
 
-    $.getJSON(show_url, function(contact) {
-      console.log(contact);
-      var full_name = contact.first_name + " " + contact.last_name;
-      $('<h3>').text(full_name).appendTo(info);
-      $('<h4>').text(contact.email).appendTo(info);
-      $('<h5>').text("Phone Numbers: ").appendTo(info);
-    });
+    $.getJSON(show_url, handlers.showContactInfo);
   }
 };
 
