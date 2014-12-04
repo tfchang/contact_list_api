@@ -10,13 +10,13 @@ function showOnly(elem) {
 };
 
 var handlers = {
-  // displayTable: function(index, contact) {
-  //   var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-  //   $('<td>').text(contact.id).appendTo(tr);
-  //   $('<td>').text(contact.first_name).appendTo(tr);
-  //   $('<td>').text(contact.last_name).appendTo(tr);
-  //   $('<td>').text(contact.email).appendTo(tr);
-  // },
+  displayTable: function(index, contact, table) {
+    var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
+    $('<td>').text(contact.id).appendTo(tr);
+    $('<td>').text(contact.first_name).appendTo(tr);
+    $('<td>').text(contact.last_name).appendTo(tr);
+    $('<td>').text(contact.email).appendTo(tr);
+  },
 
   listContacts: function() {
     showOnly(contactsTable);
@@ -25,11 +25,7 @@ var handlers = {
       var table = contactsTable.find('tbody').empty();
 
       $.each(data, function(index, contact) {
-        var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-        $('<td>').text(contact.id).appendTo(tr);
-        $('<td>').text(contact.first_name).appendTo(tr);
-        $('<td>').text(contact.last_name).appendTo(tr);
-        $('<td>').text(contact.email).appendTo(tr);
+        handlers.displayTable(index, contact, table)
       });
     });
   },
@@ -50,11 +46,7 @@ var handlers = {
     var table = contactsTable.find('tbody').empty();
 
     $.each(data, function(index, contact) {
-      var tr = $("<tr class='contact-row' height='30'>").appendTo(table);
-      $('<td>').text(contact.id).appendTo(tr);
-      $('<td>').text(contact.first_name).appendTo(tr);
-      $('<td>').text(contact.last_name).appendTo(tr);
-      $('<td>').text(contact.email).appendTo(tr);
+      handlers.displayTable(index, contact, table)
     });
   },
 
