@@ -109,10 +109,21 @@ var handlers = {
   },
 
   editContact: function() {
-    $('<p class="notice">').text("Each field is editable now.").prependTo(showBox);
+    var info = showBox.children('#contact-info');
+    $('<p class="notice">').text("Each field is editable now.").prependTo(info);
     $('#contact-name').attr('contentEditable', true);
     $('#contact-email').attr('contentEditable', true);
     $('.contact-phone').attr('contentEditable', true);
+
+    $('#edit-contact').hide();
+    $('#delete-contact').hide();
+    handlers.saveContact(); 
+  },
+
+  saveContact: function() {
+    $('#edit-contact').hide();
+    $('#delete-contact').hide();
+    $('#save-contact').show();
   },
 
   deleteContact: function() {
@@ -141,6 +152,7 @@ $(function() {
   $('#add-contact').on('click', handlers.addContact);
   $('#edit-contact').on('click', handlers.editContact);
   $('#delete-contact').on('click', handlers.deleteContact);
+  $('#save-contact').hide();
   
   newForm.on('submit', handlers.createContact);
   findForm.on('submit', handlers.searchContact);
