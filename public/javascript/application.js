@@ -43,10 +43,10 @@ var handlers = {
     findForm[0].reset();
   },
 
-  searchContact: function() {
+  searchContact: function(event) {
     event.preventDefault();
     formParams = $(this).serialize();
-    $.post('/api/find', formParams, handlers.postSearch, 'json');
+    $.get('/api/find', formParams, handlers.postSearch, 'json');
   },
 
   postSearch: function(data) {
@@ -111,8 +111,8 @@ var handlers = {
 
   showContact: function() {
     var contactID = $(this).find('td').first().text();
-    var showURL = '/api/show/' + contactID;
-    $.getJSON(showURL, handlers.showContactInfo);
+    var data = {id: contactID};
+    $.getJSON('/api/show', data, handlers.showContactInfo);
   },
 
   editContact: function() {
