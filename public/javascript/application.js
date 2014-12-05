@@ -96,6 +96,7 @@ var handlers = {
     $('<h4 id="contact-email">').text(contact.email).appendTo(info);
     $('<hr />').appendTo(info);    
     $("<h5 id='phone-heading'>").text("Phone Numbers: ").appendTo(info);
+    
     handlers.showContactPhones(contact); 
   },
 
@@ -107,15 +108,14 @@ var handlers = {
 
   editContact: function() {
     var info = showBox.children('#contact-info');
+
     $('<p class="notice">').text("First name, last name, email, and phone numbers can be edited.").prependTo(info);
     $('#contact-first-name').attr('contentEditable', true);
     $('#contact-last-name').attr('contentEditable', true);
     $('#contact-email').attr('contentEditable', true);
     $('.contact-phone').attr('contentEditable', true);
 
-    editButton.hide();
-    deleteButton.hide();
-    saveButton.show();
+    handlers.editToggleButtons();
   },
 
   saveContact: function() {
@@ -130,10 +130,13 @@ var handlers = {
 
   postSave: function(data) {
     handlers.postAction('edit', data.result);
+    handlers.editToggleButtons();
+  },
 
-    editButton.show();
-    deleteButton.show();
-    saveButton.hide();
+  editToggleButtons: function() {
+    editButton.toggle();
+    deleteButton.toggle();
+    saveButton.toggle();
   },
 
   deleteContact: function() {
