@@ -7,18 +7,30 @@ button {
   display: inline-block;
   width: 130px;
   height: 35px;
-  margin: 20px;
+  margin: 40px 20px 20px 20px;
   padding: 5px;
   font-size: 20px;
 }
 
-table {
-  height: 20px;
+table, th, td {
+  border: 1px solid black;
 }
 
-/*.hide {
+table thead tr {
+  height: 45px;
+}
+
+table tbody tr {
+  height: 40px;
+}
+
+th, td {
+  padding: 5px;
+}
+
+.hide {
   display: none;
-}*/
+}
 
 .highlight {
   font-weight: bold;
@@ -33,9 +45,18 @@ table {
 
 #show-contact {
   float: left;
-  margin-top: 30px;
-  margin-left: 50px;
+  margin: 30px 0 50px 50px;
   width: 400px;
   padding: 20px;
   border: 1px solid black;
+}
+
+#phone-heading {
+  margin-bottom: 15px;
+  text-decoration: underline;
+  font-size: 1.1em;
+}
+
+.notice {
+  color: red;
 }
