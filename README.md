@@ -6,7 +6,7 @@ Baisc CRUD operations on contact information: first name, last name, email, and 
 Work In Progress: This single-page web application began at Lighthouse Labs as a learning project for JavaScript/jQuery. It also provides an API that returns JSON data. It uses Sinatra as the web server.
 
 This application/API is deployed to Heroku at
-[https://tchang-contact-list-api.herokuapp.com] (https://tchang-contact-list-api.herokuapp.com)
+[https://tchang-contact-list-api.herokuapp.com] (https://tchang-contact-list-api.herokuapp.com). The branch deployed is deploy-heroku, not master.
 
 API Endpoints (return JSON)
 ---------------------------
