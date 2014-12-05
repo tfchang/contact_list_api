@@ -37,12 +37,15 @@ get '/api/show/:id' do
 end
 
 post '/api/save' do
-  puts('In Action!')
   response = {}
   response[:result] = false
   
   contact = Contact.find(params[:id].to_i)
-  if contact.destroy
+  contact.first_name = params[:first_name]
+  contact.last_name = params[:last_name]
+  contact.email = params[:email]
+
+  if contact.save
     response[:result] = true
     response[:id] = contact.id
   end
@@ -50,7 +53,6 @@ post '/api/save' do
 end
 
 post '/api/delete' do
-  puts('In Action!')
   response = {}
   response[:result] = false
   

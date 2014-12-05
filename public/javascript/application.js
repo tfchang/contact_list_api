@@ -70,11 +70,7 @@ var handlers = {
   },
 
   postCreate: function(data) {
-    if (data.result) {
-      handlers.listContacts();
-    } else {
-      alert('Error! Failure to create contact.')
-    }
+    handlers.postAction('create', data.result);
   },
 
   showContactPhones: function(contact) {
@@ -123,12 +119,21 @@ var handlers = {
   },
 
   saveContact: function() {
-    // var contactID = $('#contact-info').data('contact-id');
-    // var saveParams = {
-    //   'id':contactID,
+    var saveParams = {
+      'id':           $('#contact-info').data('contact-id'),
+      'first_name':   $('#contact-first-name').text(),
+      'last_name':    $('#contact-last-name').text(),
+      'email':        $('#contact-email').text()
+    };
+    $.post('/api/save', saveParams, handlers.postSave, 'json');
+  },
 
-    // }
-    // $.post('/api/save', saveParams, handlers.postCreate, 'json');
+  postSave: function(data) {
+    handlers.postAction('edit', data.result);
+
+    editButton.show();
+    deleteButton.show();
+    saveButton.hide();
   },
 
   deleteContact: function() {
@@ -137,10 +142,14 @@ var handlers = {
   },
 
   postDelete: function(data) {
-    if (data.result) {
+    handlers.postAction('delete', data.result);
+  },
+
+  postAction: function(action, result) {
+    if (result) {
       handlers.listContacts();
     } else {
-      alert('Error! Failure to delete contact.')
+      alert('Error! Failure to ' + action + ' contact.')
     };
   }
 };
