@@ -14,16 +14,17 @@ API Endpoints (return JSON)
   Returns a list of all contacts (first name, last name, email). No phone numbers.
 
 ### GET '/api/find?search_term=[search term]'
-Replace [search_term] with the term you want to search by.
+> Replace [search_term] with the term you want to search by.
 
-  Find contacts by matching the search_term against first_name, last_name, and email. Returns a list of all matched contacts (first name, last name, email).
+Find contacts by matching the search term against first name, last name, and email. Returns a list of all matched contacts (first name, last name, email).
 
 ### POST '/api/create'
 > Parameters: first_name, last_name, email, phones
 >             phones format:  [{label:label, number:number},
 >                              {label:label, number:number}, 
-                             ...] 
-  Create a new contact with first name, last name, email, and phone numbers. Each phone number has a label.
+>                             ...] 
+
+Create a new contact with first name, last name, email, and phone numbers. Each phone number has a label.
 
 ### GET '/api/show?id=[id]'
 Replace [id] with the contact ID.
@@ -33,9 +34,11 @@ Replace [id] with the contact ID.
 > Parameters: id, first_name, last_name, email, phones
 >             phones format:  [{label:label, number:number},
 >                              {label:label, number:number}, 
-                   ...]
-  Update contact (identified by id) information. Can update first name, last name, email, phone numbers.
+>                   ...]
+
+Update contact (identified by id) information. Can update first name, last name, email, phone numbers.
 
 ### POST '/api/delete'
 > Parameters: id
-  Delete the contact identified by id.
+
+Delete the contact identified by id.
