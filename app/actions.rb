@@ -36,8 +36,30 @@ get '/api/show/:id' do
   # erb :show
 end
 
+post '/api/save' do
+  response = {}
+  response[:result] = false
+  
+  contact = Contact.find(params[:id].to_i)
+  contact.first_name = params[:first_name]
+  contact.last_name = params[:last_name]
+  contact.email = params[:email]
+
+  if contact.save
+    response[:result] = true
+    response[:id] = contact.id
+
+    # TODO: Notify user if any phone fails to save
+    contact.phones.destroy_all
+    phones = params[:phones]
+    phones.each do |phone|
+      contact.phones.create(label: phone[1]["label"], number: phone[1]["number"])
+    end
+  end
+  response.to_json
+end
+
 post '/api/delete' do
-  puts('In Action!')
   response = {}
   response[:result] = false
   
