@@ -48,6 +48,13 @@ post '/api/save' do
   if contact.save
     response[:result] = true
     response[:id] = contact.id
+
+    # TODO: Notify user if any phone fails to save
+    contact.phones.destroy_all
+    phones = params[:phones]
+    phones.each do |phone|
+      contact.phones.create(label: phone[1]["label"], number: phone[1]["number"])
+    end
   end
   response.to_json
 end

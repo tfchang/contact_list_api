@@ -74,12 +74,21 @@ var handlers = {
   },
 
   showContactPhones: function(contact) {
-    var phones = $('#contact-phones').children('tbody');
+    var phones = $('#contact-phones').find('.contact-phone');
     phones.empty();
-    $.each(contact.phones, function(index, phone) {
-      var tr = $('<tr class="contact-phone">').appendTo(phones);
-      $('<td>').text(phone.label).appendTo(tr);
-      $('<td>').text(phone.number).appendTo(tr);
+    phones.attr('contentEditable', false);
+
+    // $.each(contact.phones, function(index, phone) {
+    // Display three rows regardless of how many phones the contact has
+    $.each(phones, function(index, row) {
+      phone = contact.phones[index];
+      if (phone) {
+        $('<td>').text(phone.label).appendTo(row);
+        $('<td>').text(phone.number).appendTo(row);
+      } else {
+        $('<td>').appendTo(row);
+        $('<td>').appendTo(row);
+      };
     }); 
   },
 
@@ -96,7 +105,7 @@ var handlers = {
     $('<h4 id="contact-email">').text(contact.email).appendTo(info);
     $('<hr />').appendTo(info);    
     $("<h5 id='phone-heading'>").text("Phone Numbers: ").appendTo(info);
-    
+
     handlers.showContactPhones(contact); 
   },
 
@@ -123,8 +132,23 @@ var handlers = {
       'id':           $('#contact-info').data('contact-id'),
       'first_name':   $('#contact-first-name').text(),
       'last_name':    $('#contact-last-name').text(),
-      'email':        $('#contact-email').text()
+      'email':        $('#contact-email').text(),
+      'phones':       []
     };
+
+    var phones = $('#contact-phones').find('.contact-phone');
+
+    $.each(phones, function(index, row) {
+      var tr = $(row);
+      var phoneParams = {
+        'label': tr.children('td').first().text(),
+        'number': tr.children('td').last().text()
+      };
+      if (phoneParams.number !== "") {
+        saveParams.phones.push(phoneParams);
+      };
+    });
+
     $.post('/api/save', saveParams, handlers.postSave, 'json');
   },
 
