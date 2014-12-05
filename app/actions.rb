@@ -36,6 +36,19 @@ get '/api/show/:id' do
   # erb :show
 end
 
+post '/api/save' do
+  puts('In Action!')
+  response = {}
+  response[:result] = false
+  
+  contact = Contact.find(params[:id].to_i)
+  if contact.destroy
+    response[:result] = true
+    response[:id] = contact.id
+  end
+  response.to_json
+end
+
 post '/api/delete' do
   puts('In Action!')
   response = {}

@@ -45,8 +45,8 @@ var handlers = {
 
   searchContact: function() {
     event.preventDefault();
-    form_params = $(this).serialize();
-    $.post('/api/find', form_params, handlers.postSearch, 'json');
+    formParams = $(this).serialize();
+    $.post('/api/find', formParams, handlers.postSearch, 'json');
   },
 
   postSearch: function(data) {
@@ -65,8 +65,8 @@ var handlers = {
 
   createContact: function(event) {
     event.preventDefault();
-    form_params = $(this).serialize();
-    $.post('/api/create', form_params, handlers.postCreate, 'json');
+    formParams = $(this).serialize();
+    $.post('/api/create', formParams, handlers.postCreate, 'json');
   },
 
   postCreate: function(data) {
@@ -93,8 +93,10 @@ var handlers = {
     info.data('contact-id', contact.id);
     showBox.show();
 
-    var full_name = contact.first_name + " " + contact.last_name; 
-    $('<h3 id="contact-name">').text(full_name).appendTo(info);
+    var fullName = contact.first_name + " " + contact.last_name; 
+    $('<h3 id="contact-name">').text(fullName).appendTo(info);
+    $('<h4 id="contact-first-name">').text(contact.first_name).appendTo(info);
+    $('<h4 id="contact-last-name">').text(contact.last_name).appendTo(info);
     $('<h4 id="contact-email">').text(contact.email).appendTo(info);
     $('<hr />').appendTo(info);    
     $("<h5 id='phone-heading'>").text("Phone Numbers: ").appendTo(info);
@@ -102,33 +104,36 @@ var handlers = {
   },
 
   showContact: function() {
-    var contact_id = $(this).find('td').first().text();
-    var show_url = '/api/show/' + contact_id;
-
-    $.getJSON(show_url, handlers.showContactInfo);
+    var contactID = $(this).find('td').first().text();
+    var showURL = '/api/show/' + contactID;
+    $.getJSON(showURL, handlers.showContactInfo);
   },
 
   editContact: function() {
     var info = showBox.children('#contact-info');
-    $('<p class="notice">').text("Each field is editable now.").prependTo(info);
-    $('#contact-name').attr('contentEditable', true);
+    $('<p class="notice">').text("First name, last name, email, and phone numbers can be edited.").prependTo(info);
+    $('#contact-first-name').attr('contentEditable', true);
+    $('#contact-last-name').attr('contentEditable', true);
     $('#contact-email').attr('contentEditable', true);
     $('.contact-phone').attr('contentEditable', true);
 
-    $('#edit-contact').hide();
-    $('#delete-contact').hide();
-    handlers.saveContact(); 
+    editButton.hide();
+    deleteButton.hide();
+    saveButton.show();
   },
 
   saveContact: function() {
-    $('#edit-contact').hide();
-    $('#delete-contact').hide();
-    $('#save-contact').show();
+    // var contactID = $('#contact-info').data('contact-id');
+    // var saveParams = {
+    //   'id':contactID,
+
+    // }
+    // $.post('/api/save', saveParams, handlers.postCreate, 'json');
   },
 
   deleteContact: function() {
-    var contact_id = $('#contact-info').data('contact-id');
-    $.post('/api/delete', {'id':contact_id}, handlers.postDelete, 'json');
+    var contactID = $('#contact-info').data('contact-id');
+    $.post('/api/delete', {'id':contactID}, handlers.postDelete, 'json');
   },
 
   postDelete: function(data) {
@@ -150,9 +155,14 @@ $(function() {
   $('#list-contacts').on('click', handlers.listContacts);
   $('#find-contact').on('click', handlers.findContact);
   $('#add-contact').on('click', handlers.addContact);
-  $('#edit-contact').on('click', handlers.editContact);
-  $('#delete-contact').on('click', handlers.deleteContact);
-  $('#save-contact').hide();
+
+  editButton = $('#edit-contact');
+  deleteButton = $('#delete-contact');
+  saveButton = $('#save-contact');
+  editButton.on('click', handlers.editContact);
+  deleteButton.on('click', handlers.deleteContact);
+  saveButton.on('click', handlers.saveContact);
+  saveButton.hide();
   
   newForm.on('submit', handlers.createContact);
   findForm.on('submit', handlers.searchContact);
