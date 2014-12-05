@@ -20,9 +20,9 @@ Find contacts by matching the search term against first name, last name, and ema
 
 ### POST '/api/create'
 > Parameters: first_name, last_name, email, phones
->>            phones format:  [{label:label, number:number},
->>                             {label:label, number:number}, 
->>                             ...] 
+>> phones format:  [{label:label, number:number},
+>>                  {label:label, number:number}, 
+>>                  ...] 
 
 Create a new contact with first name, last name, email, and phone numbers. Each phone number has a label.
 
@@ -33,9 +33,9 @@ Show all information (first name, last name, email, phone numbers) of a contact 
 
 ### POST '/api/save'
 > Parameters: id, first_name, last_name, email, phones
->>            phones format:  [{label:label, number:number},
->>                             {label:label, number:number}, 
->>                              ...]
+>> phones format:  [{label:label, number:number},
+>>                  {label:label, number:number}, 
+>>                  ...]
 
 Update contact (identified by id) information. Can update first name, last name, email, phone numbers.
 
